@@ -1,0 +1,136 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero Hub — Overwatch 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <div class="logo">
+      <svg class="ow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+        <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>HERO HUB</span>
+    </div>
+
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input type="text" id="searchInput" placeholder="Search heroes…" autocomplete="off" spellcheck="false">
+      <button id="clearSearch" aria-label="Clear search">✕</button>
+    </div>
+
+    <div class="header-right">
+      <div class="total-progress-wrap">
+        <div class="progress-ring-wrap" title="Overall completion">
+          <svg class="progress-ring" viewBox="0 0 44 44">
+            <circle class="ring-bg" cx="22" cy="22" r="18"/>
+            <circle class="ring-fill" id="ringFill" cx="22" cy="22" r="18"/>
+          </svg>
+          <span id="totalPercent">0%</span>
+        </div>
+        <span class="progress-label" id="totalLabel">0 / 0 heroes</span>
+      </div>
+      <button id="resetBtn" title="Reset all progress">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 3v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Reset All
+      </button>
+    </div>
+  </header>
+
+  <!-- ROLE FILTER TABS -->
+  <div class="filter-tabs">
+    <button class="tab active" data-filter="all">All Roles</button>
+    <button class="tab tank-tab" data-filter="tank">
+      <svg viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="3" width="10" height="10" rx="2"/></svg>
+      Tank
+    </button>
+    <button class="tab damage-tab" data-filter="damage">
+      <svg viewBox="0 0 16 16" fill="currentColor"><polygon points="8,2 14,14 2,14"/></svg>
+      Damage
+    </button>
+    <button class="tab support-tab" data-filter="support">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/><path d="M8 5v6M5 8h6"/></svg>
+      Support
+    </button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="container" id="mainContainer">
+
+    <section data-role="tank">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <svg class="role-icon tank-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="12" height="12" rx="2"/></svg>
+          <h2 class="tank">TANK</h2>
+        </div>
+        <div class="role-stats">
+          <div class="role-bar-wrap">
+            <div class="role-bar tank-bar" id="tank-bar"></div>
+          </div>
+          <span class="role-progress" id="tank-progress">0 / 0</span>
+        </div>
+      </div>
+      <div class="hero-grid" id="tank"></div>
+    </section>
+
+    <section data-role="damage">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <svg class="role-icon damage-icon" viewBox="0 0 16 16" fill="currentColor"><polygon points="8,1 15,15 1,15"/></svg>
+          <h2 class="damage">DAMAGE</h2>
+        </div>
+        <div class="role-stats">
+          <div class="role-bar-wrap">
+            <div class="role-bar damage-bar" id="damage-bar"></div>
+          </div>
+          <span class="role-progress" id="damage-progress">0 / 0</span>
+        </div>
+      </div>
+      <div class="hero-grid" id="damage"></div>
+    </section>
+
+    <section data-role="support">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <svg class="role-icon support-icon" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6"/><path d="M8 5v6M5 8h6" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <h2 class="support">SUPPORT</h2>
+        </div>
+        <div class="role-stats">
+          <div class="role-bar-wrap">
+            <div class="role-bar support-bar" id="support-bar"></div>
+          </div>
+          <span class="role-progress" id="support-progress">0 / 0</span>
+        </div>
+      </div>
+      <div class="hero-grid" id="support"></div>
+    </section>
+
+  </main>
+
+  <!-- RESET CONFIRM MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h3>Reset all progress?</h3>
+      <p>This will uncheck all heroes. This cannot be undone.</p>
+      <div class="modal-actions">
+        <button id="confirmReset" class="btn-confirm">Reset</button>
+        <button id="cancelReset" class="btn-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NO RESULTS -->
+  <div class="no-results" id="noResults" style="display:none">
+    <p>No heroes found for "<span id="noResultsQuery"></span>"</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
