@@ -36,6 +36,7 @@ const heroes = {
     { id: "Mei",        name: "Mei" },
     { id: "pharah",     name: "Pharah" },
     { id: "Reaper",     name: "Reaper" },
+    { id: "Sierra",    name: "Sierra" },
     { id: "Sojourn",    name: "Sojourn" },
     { id: "Soldier-76", name: "Soldier: 76" },
     { id: "Sombra",     name: "Sombra" },
